@@ -160,7 +160,17 @@
       </div>
     </div>
     <script>
+         $( document ).ready(() =>
+       {
+        // get current user from local storage ? do not thing : redirect sign up 
+        let getAllUser = JSON.parse(localStorage.getItem("user"));
+          if(getAllUser)
+          { 
+            location.replace("./index.html")
+          }
+       })
       $("#btn-signup").click(() => {
+     
         const getUsernameVal = $("#username").val();
         const getEmailVal = $("#email").val();
         const password = $("#password").val();
@@ -168,8 +178,15 @@
         let getAllUser = JSON.parse(localStorage.getItem("users"));
         if (getAllUser === null) {
           getAllUser = [];
+        } else {
+          for (let i = 0; i < getAllUser.length; i++) {
+            if (getAllUser[i].email === getEmailVal) {
+              alert("Email has been used");
+
+              return;
+            }
+          }
         }
-        console.log(getAllUser);
         if (password === confirmPassword) {
           getAllUser.push({
             email: getEmailVal,
@@ -178,7 +195,7 @@
           });
           localStorage.setItem("users", JSON.stringify(getAllUser));
           alert("Success");
-          return;
+          return true
         } else {
           alert("Not Good");
           return;
