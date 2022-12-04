@@ -157,12 +157,22 @@
           ) {
             localStorage.setItem("user", JSON.stringify(getAllUser[i]));
             alert("Login success");
-
+            location.replace("./index.html")
             return;
           }
         }
         alert("Please check your email or your password")
       });
+
+      $( document ).ready(() =>
+       {
+        // get current user from local storage ? do not thing : redirect sign up 
+        let getAllUser = JSON.parse(localStorage.getItem("user"));
+          if(getAllUser)
+          { 
+            location.replace("./index .html")
+          }
+       })
     </script>
   </body>
 </html>
