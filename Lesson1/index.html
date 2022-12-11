@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="cupcake">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -86,42 +86,32 @@
       </div>
     </div>
     <div class="card w-screen bg-base-200 shadow-xl">
-    <div class="card-body form-control">
-      <label class="label">
-        <span class="label-text">Create A Post  </span>
-      </label>
-      <label class="input-group">
-        <span>Title</span>
-        <input
-          type="text"
-          placeholder="info@site.com"
-          class="input input-bordered"
-        />
-      </label>
-      <label class="input-group">
-        <span>Description</span>
-        <input
-          type="text"
-          placeholder="info@site.com"
-          class="input input-bordered"
-        />
-      </label>
-    </div>
-    </div>
-    <div class="card w-screen bg-base-200 shadow-xl">
-      <div class="card-body border-2 my-5 mx-2">
-        <h2 class="card-title">Card title!</h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
-      </div>
-      <div class="card-body border-2 my-5 mx-2">
-        <h2 class="card-title">Card title!</h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
-      </div>
-      <div class="card-body border-2 my-5 mx-2">
-        <h2 class="card-title">Card title!</h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
+      <div class="card-body form-control m-auto">
+        <label class="label">
+          <span class="label-text">Create A Post </span>
+        </label>
+        <label class="input-group">
+          <span>Title</span>
+          <input
+            id="Title"
+            type="text"
+            placeholder="info@site.com"
+            class="input input-bordered"
+          />
+        </label>
+        <label class="input-group m-auto">
+          <span>Description</span>
+          <input
+            id="Description"
+            type="text"
+            placeholder="info@site.com"
+            class="input input-bordered"
+          />
+        </label>
+        <button id="create" class="btn m-auto">Create</button>
       </div>
     </div>
+    <div id="post" class="card w-screen bg-base-200 shadow-xl"></div>
 
     <footer class="footer p-10 bg-neutral text-neutral-content">
       <div>
@@ -152,6 +142,36 @@
         if (!getAllUser) {
           location.replace("./Login.html");
         }
+        let getPost = JSON.parse(localStorage.getItem("post"));
+        $.map(getPost,(val,index) =>{
+          return   $(`
+        <div class="card-body border-2 my-5 mx-2" id=${index}>
+        <h2 class="card-title">${val.title}</h2>
+        <p>${val.desc}</p>
+      </div>`).appendTo("#post");
+        })
+      });
+
+      $("#create").click(() => {
+        let getPost = JSON.parse(localStorage.getItem("post")); //getPost
+        var Title = $("#Title").val();
+        var Desc = $("#Description").val();
+        // post = [{Title: "", Desc},{Title, Desc}]
+        // Check the post
+        if (getPost == null) {
+          getPost = [];
+        }
+        // Saving
+        getPost.push({ title: Title, desc: Desc });
+        // console.log(getPost)
+        localStorage.setItem("post", JSON.stringify(getPost));
+        
+        $(`
+        <div class="card-body border-2 my-5 mx-2" id=${getPost.length-1}>
+        <h2 class="card-title">${Title}</h2>
+        <p>${Desc}</p>
+      </div>`).appendTo("#post");
+        return;
       });
     </script>
   </body>
