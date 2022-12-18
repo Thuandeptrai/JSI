@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="cupcake">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+      integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/2.41.0/full.css"
+      integrity="sha512-FKI5eSJn7yOYx6w/oekerTiYmqkl0areDYZVM66CcLm9ty/BQa1U+gGn8XbPgehrgyxebAWKUWaE75nrjt26nQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cloudinary-jquery/2.13.0/cloudinary-jquery.min.js" integrity="sha512-da4/9SHI5W0IH1FEZvPM0nEQfVVAzNgCpJ/X7yBfNtbQnwSvGO+XpCK0hByUR4kdgi3Ldwymnr09iOfjD+GyCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src='https://cdn.jsdelivr.net/jquery.cloudinary/1.0.18/jquery.cloudinary.js' type='text/javascript'></script>
+
+    <title>Document</title>
+  </head>
+  <body>
+  
+    <div class="navbar bg-base-100">
+      <div class="navbar-start">
+        <div class="dropdown">
+          <label tabindex="0" class="btn btn-ghost btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h7"
+              />
+            </svg>
+          </label>
+          <ul
+            tabindex="0"
+            class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li><a>Homepage</a></li>
+            <li><a>CreatePost</a></li>
+            <li><a>About</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="navbar-center">
+        <a class="btn btn-ghost normal-case text-xl">daisyUI</a>
+      </div>
+      <div class="navbar-end">
+        <div class="dropdown dropdown-end">
+          <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+            <div class="w-10 rounded-full">
+              <img src="https://placeimg.com/80/80/people" />
+            </div>
+          </label>
+          <ul
+            tabindex="0"
+            class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <a class="justify-between">
+                Profile
+                <span class="badge">New</span>
+              </a>
+            </li>
+            <li><a>Settings</a></li>
+            <li><a>Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card w-screen bg-base-200 shadow-xl">
+      <div class="card-body form-control m-auto">
+        <label class="label">
+          <span class="label-text">Create A Post </span>
+        </label>
+        <label class="input-group">
+          <span>Title</span>
+          <input
+            id="Title"
+            type="text"
+            placeholder="info@site.com"
+            class="input input-bordered"
+          />
+        </label>
+        <label class="input-group m-auto">
+          <span>Description</span>
+          <input
+            id="Description"
+            type="text"
+            placeholder="info@site.com"
+            class="input input-bordered"
+          />
+        </label>
+        <input name="file" type="file" class="cloudinary-fileupload" data-cloudinary-field="image_id" 
+        data-form-data=" ... upload options as html-escaped JSON data ... " ></input>
+        <button id="create" class="btn m-auto">Create</button>
+      </div>
+    </div>
+    <div id="post" class="card flex  w-screen bg-base-200 shadow-xl">
+      
+    </div>
+
+    <footer class="footer p-10 bg-neutral text-neutral-content">
+      <div>
+        <span class="footer-title">Services</span>
+        <a class="link link-hover">Branding</a>
+        <a class="link link-hover">Design</a>
+        <a class="link link-hover">Marketing</a>
+        <a class="link link-hover">Advertisement</a>
+      </div>
+      <div>
+        <span class="footer-title">Company</span>
+        <a class="link link-hover">About us</a>
+        <a class="link link-hover">Contact</a>
+        <a class="link link-hover">Jobs</a>
+        <a class="link link-hover">Press kit</a>
+      </div>
+      <div>
+        <span class="footer-title">Legal</span>
+        <a class="link link-hover">Terms of use</a>
+        <a class="link link-hover">Privacy policy</a>
+        <a class="link link-hover">Cookie policy</a>
+      </div>
+    </footer>
+    <script >
+        let getPost = JSON.parse(localStorage.getItem("post"));
+
+      $(document).ready(() => {
+        // get current user from local storage ? do not thing : redirect sign up
+        let getAllUser = JSON.parse(localStorage.getItem("user"));
+   
+        let getPost = JSON.parse(localStorage.getItem("post"));
+        $.map(getPost,(val,index) =>{
+          return   this.  $(`
+        <div class="card-body  border-2 my-5 " id=${index}>
+        <h2 class="card-title ">${val.title}</h2>
+        <p class="">${val.desc}</p>
+        <button class="btn btn-circle bottom-0 right-0  my-7" id="${val.id}" >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+</svg>
+</button>
+      </div>`).appendTo("#post");
+        })
+      });
+     
+      $("#create").click(() => {
+        let getPost = JSON.parse(localStorage.getItem("post")); //getPost
+        var Title = $("#Title").val();
+        var Desc = $("#Description").val();
+        // post = [{Title: "", Desc},{Title, Desc}]
+        // Check the post
+        if (getPost == null) {
+          getPost = [];
+        }
+        let currentId = Math.floor(Math.random() * 10000);
+        // Saving
+        getPost.push({ title: Title, desc: Desc ,id:currentId});
+        // console.log(getPost)
+        localStorage.setItem("post", JSON.stringify(getPost));
+        
+        $(`
+        <div class="card-body border-2 my-5 mx-2  " id=${getPost.length-1}>
+        <h2 class="card-title ">${Title}</h2>
+        <p>${Desc}</p>
+        <button class="btn btn-circle " id="${currentId}">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+</svg>
+
+</button>
+      </div>`).appendTo("#post");
+        return;
+      });
+      $("body").on("click", ".btn.btn-circle", function(){
+        // if(getPost.length == 1)
+        // {
+        //   getPost=[]
+        // }
+        let getPost = JSON.parse(localStorage.getItem("post"));
+        let index =1; 
+        for(let i = 0; i < getPost.length; i++)
+        {
+          if(parseInt(getPost[i].id) === parseInt(this.id) )
+          {
+            index = i;
+          }
+        }
+        getPost.splice(index,1)
+        $(this).closest('div').remove();
+
+        localStorage.setItem("post", JSON.stringify(getPost))
+});
+    </script>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCNKsmNnAI4CTHijilA-CEI1Y3n2AJE6FA",
+        authDomain: "thuan-d09ff.firebaseapp.com",
+        databaseURL: "https://thuan-d09ff-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "thuan-d09ff",
+        storageBucket: "thuan-d09ff.appspot.com",
+        messagingSenderId: "253475933169",
+        appId: "1:253475933169:web:54c71e51e480ddcb8c1250"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+    </script>
+  </body>
+</html>
