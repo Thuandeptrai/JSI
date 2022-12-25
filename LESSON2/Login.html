@@ -145,34 +145,54 @@
         </div>
       </div>
     </div>
-    <script>
+    <script type="module">
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCNKsmNnAI4CTHijilA-CEI1Y3n2AJE6FA",
+        authDomain: "thuan-d09ff.firebaseapp.com",
+        databaseURL:
+          "https://thuan-d09ff-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "thuan-d09ff",
+        storageBucket: "thuan-d09ff.appspot.com",
+        messagingSenderId: "253475933169",
+        appId: "1:253475933169:web:54c71e51e480ddcb8c1250",
+      };
+      const app = initializeApp(firebaseConfig);
+
+
       $("#btn-login").click(() => {
         const getEmailVal = $("#email").val();
         const password = $("#password").val();
-        let getAllUser = JSON.parse(localStorage.getItem("users"));
-        for (let i = 0; i < getAllUser.length; i++) {
-          if (
-            getAllUser[i].email === getEmailVal &&
-            getAllUser[i].password === password
-          ) {
-            localStorage.setItem("user", JSON.stringify(getAllUser[i]));
-            alert("Login success");
-            location.replace("./index.html")
-            return;
-          }
-        }
-        alert("Please check your email or your password")
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, getEmailVal, password)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            localStorage.setItem("users", JSON.stringify(user))
+            alert("Success")
+            // ...
+          })
+          .catch((error) => {
+            alert("Please Check Your Password")
+            const errorCode = error.code;
+            const errorMessage = error.message;
+          });
       });
 
-      $( document ).ready(() =>
-       {
-        // get current user from local storage ? do not thing : redirect sign up 
-        let getAllUser = JSON.parse(localStorage.getItem("user"));
-          if(getAllUser)
-          { 
-            location.replace("./index .html")
-          }
-       })
+      $(document).ready(() => {
+        // get current user from local storage ? do not thing : redirect sign up
+      });
     </script>
   </body>
 </html>

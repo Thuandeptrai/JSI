@@ -183,6 +183,8 @@
         messagingSenderId: "253475933169",
         appId: "1:253475933169:web:54c71e51e480ddcb8c1250",
       };
+      const app = initializeApp(firebaseConfig);
+
       $("#btn-signup").click(() => {
         const getUsernameVal = $("#username").val();
         const getEmailVal = $("#email").val();
@@ -193,7 +195,6 @@
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            console.log(user)
             alert("Success")
             // ...
           })
@@ -204,7 +205,6 @@
           });
       });
       // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
 
       // Initialize Firebase
 
@@ -216,6 +216,5 @@
         }
       });
     </script>
-    <script type="module"></script>
   </body>
 </html>
