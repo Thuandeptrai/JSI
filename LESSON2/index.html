@@ -144,38 +144,35 @@
       </div>
     </footer>
     <script type="module">
-      import {
+     import {
         getAuth,
         createUserWithEmailAndPassword,
-        signInWithEmailAndPassword,
+        signInWithEmailAndPassword
       } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-      import {  getFirestore, doc, getDocs ,onSnapshot,  query, orderBy, limit ,collection} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"
+      import { getFirestore,setDoc,doc} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
       // TODO: Add SDKs for Firebase products that you want to use
       // https://firebase.google.com/docs/web/setup#available-libraries
-
       // Your web app's Firebase configuration
       const firebaseConfig = {
-        apiKey: "AIzaSyCNKsmNnAI4CTHijilA-CEI1Y3n2AJE6FA",
-        authDomain: "thuan-d09ff.firebaseapp.com",
-        databaseURL:
-          "https://thuan-d09ff-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "thuan-d09ff",
-        storageBucket: "thuan-d09ff.appspot.com",
-        messagingSenderId: "253475933169",
-        appId: "1:253475933169:web:54c71e51e480ddcb8c1250",
+        apiKey: "AIzaSyC0VG-IlwtIbxHrLOjyMmOfAzRKF09e8yY",
+  authDomain: "jsi03-58f52.firebaseapp.com",
+  projectId: "jsi03-58f52",
+  storageBucket: "jsi03-58f52.appspot.com",
+  messagingSenderId: "991494080604",
+  appId: "1:991494080604:web:fb14dc3e33cfc7fc453e99"
       };
       const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
         let getPost = JSON.parse(localStorage.getItem("post"));
-        const db = getFirestore(app);
       $(document).ready( async() => {
-        const citiesRef = collection(db, "users");
-        const docsSnap = await getDocs(citiesRef);
-        console.log(docsSnap)
-        docsSnap.forEach(doc => {
-    console.log(doc.data());
-})
+//         const citiesRef = collection(db, "users");
+//         const docsSnap = await getDocs(citiesRef);
+//         console.log(docsSnap)
+//         docsSnap.forEach(doc => {
+//     console.log(doc.data());
+// })
 
         // get current user from local storage ? do not thing : redirect sign up
         let getAllUser = JSON.parse(localStorage.getItem("user"));
@@ -195,32 +192,30 @@
         })
       });
      
-      $("#create").click(() => {
+      $("#create").click( async() => {
         let getPost = JSON.parse(localStorage.getItem("post")); //getPost
         var Title = $("#Title").val();
         var Desc = $("#Description").val();
-        // post = [{Title: "", Desc},{Title, Desc}]
-        // Check the post
-        if (getPost == null) {
-          getPost = [];
-        }
-        let currentId = Math.floor(Math.random() * 10000);
-        // Saving
-        getPost.push({ title: Title, desc: Desc ,id:currentId});
-        // console.log(getPost)
-        localStorage.setItem("post", JSON.stringify(getPost));
+        let currentId =Math.floor(Math.random() * 10000);
+        await setDoc(doc(db, "Posts", currentId.toString(10)), {
+          currentId,
+          Title,
+          Desc
+});
+      
         
-        $(`
-        <div class="card-body border-2 my-5 mx-2  " id=${getPost.length-1}>
-        <h2 class="card-title ">${Title}</h2>
-        <p>${Desc}</p>
-        <button class="btn btn-circle " id="${currentId}">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-</svg>
+        
+//         $(`
+//         <div class="card-body border-2 my-5 mx-2  " id=${getPost.length-1}>
+//         <h2 class="card-title ">${Title}</h2>
+//         <p>${Desc}</p>
+//         <button class="btn btn-circle " id="${currentId}">
+//           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+//   <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+// </svg>
 
-</button>
-      </div>`).appendTo("#post");
+// </button>
+//       </div>`).appendTo("#post");
         return;
       });
       $("body").on("click", ".btn.btn-circle", function(){
