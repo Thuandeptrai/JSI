@@ -143,10 +143,40 @@
         <a class="link link-hover">Cookie policy</a>
       </div>
     </footer>
-    <script >
-        let getPost = JSON.parse(localStorage.getItem("post"));
+    <script type="module">
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+      import {  getFirestore, doc, getDocs ,onSnapshot,  query, orderBy, limit ,collection} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
 
-      $(document).ready(() => {
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCNKsmNnAI4CTHijilA-CEI1Y3n2AJE6FA",
+        authDomain: "thuan-d09ff.firebaseapp.com",
+        databaseURL:
+          "https://thuan-d09ff-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "thuan-d09ff",
+        storageBucket: "thuan-d09ff.appspot.com",
+        messagingSenderId: "253475933169",
+        appId: "1:253475933169:web:54c71e51e480ddcb8c1250",
+      };
+      const app = initializeApp(firebaseConfig);
+        let getPost = JSON.parse(localStorage.getItem("post"));
+        const db = getFirestore(app);
+      $(document).ready( async() => {
+        const citiesRef = collection(db, "users");
+        const docsSnap = await getDocs(citiesRef);
+        console.log(docsSnap)
+        docsSnap.forEach(doc => {
+    console.log(doc.data());
+})
+
         // get current user from local storage ? do not thing : redirect sign up
         let getAllUser = JSON.parse(localStorage.getItem("user"));
    
@@ -213,25 +243,6 @@
         localStorage.setItem("post", JSON.stringify(getPost))
 });
     </script>
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
-    
-      // Your web app's Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyCNKsmNnAI4CTHijilA-CEI1Y3n2AJE6FA",
-        authDomain: "thuan-d09ff.firebaseapp.com",
-        databaseURL: "https://thuan-d09ff-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "thuan-d09ff",
-        storageBucket: "thuan-d09ff.appspot.com",
-        messagingSenderId: "253475933169",
-        appId: "1:253475933169:web:54c71e51e480ddcb8c1250"
-      };
-    
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-    </script>
+
   </body>
 </html>
