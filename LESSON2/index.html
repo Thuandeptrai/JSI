@@ -235,25 +235,28 @@
 // Upload the file and metadata
 const uploadTask = await uploadBytesResumable(storageRef, myFile);
 getDownloadURL(ref(storage, `images/${tempVal[0]}.jpg`))
-  .then((url) => {
+  .then( async(url) => {
     console.log(url)
     let fullUrl = url+ "?alt=media"
     // `url` is the download URL for 'images/stars.jpg'
     $("#testImg").attr("src",fullUrl)
     // This can be downloaded directly:
     console.log(url)
+    await setDoc(doc(db, "Posts", currentId.toString(10)), {
+          currentId,
+          Title,
+          Desc,
+          url
+          
+});
+      
   })
   .catch((error) => {
     console.log(error)
     // Handle any errors
   });
 
-        await setDoc(doc(db, "Posts", currentId.toString(10)), {
-          currentId,
-          Title,
-          Desc
-});
-      
+ 
         
         
 //         $(`
