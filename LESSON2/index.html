@@ -116,30 +116,8 @@
         <button id="create" class="btn m-auto">Create</button>
       </div>
     </div>
-    <div id="post" class="card flex  w-screen bg-base-200 shadow-xl">
-      
-    </div>
-    <div class="carousel carousel-center rounded-box">
-        <div class="card m-14 w-96 bg-base-100 shadow-xl">
-          <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
-          <div class="card-body">
-            <h2 class="card-title">Shoes!</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div class="card-actions justify-end">
-              <button class="btn btn-primary">Buy Now</button>
-            </div>
-          </div>
-        </div>
-        <div class="card m-14 w-96 bg-base-100 shadow-xl">
-          <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
-          <div class="card-body">
-            <h2 class="card-title">Shoes!</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div class="card-actions justify-end">
-              <button class="btn btn-primary">Buy Now</button>
-            </div>
-          </div>
-        </div>
+    <div  id="post"class=" md:grid grid-cols-4   w-screen m-3rounded-box">
+     
      
     </div>
 
@@ -176,7 +154,7 @@
         signInWithEmailAndPassword
       } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
       import { getStorage,ref,uploadBytesResumable,getDownloadURL} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js"
-      import { getFirestore,setDoc,doc} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"
+      import { getFirestore,setDoc,doc,collection,getDocs,onSnapshot} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
       // TODO: Add SDKs for Firebase products that you want to use
@@ -192,14 +170,26 @@
       };
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
-        let getPost = JSON.parse(localStorage.getItem("post"));
       $(document).ready( async() => {
-//         const citiesRef = collection(db, "users");
-//         const docsSnap = await getDocs(citiesRef);
-//         console.log(docsSnap)
-//         docsSnap.forEach(doc => {
-//     console.log(doc.data());
-// })
+        const citiesRef = collection(db, "Posts");
+         onSnapshot(citiesRef, docsSnap =>{
+          docsSnap.forEach(doc => {
+            console.log(doc.data())
+          $(`
+          <div class="card m-14 w-96 bg-base-100 shadow-xl">
+          <figure><img src=${doc.data().url} style="width:300px; height:200px;" alt="Shoes" /></figure>
+          <div class="card-body">
+            <h2 class="card-title">${doc.data().Title}</h2>
+            <p>${doc.data().Desc}</p>
+            <div class="card-actions justify-end">
+              <button class="btn btn-primary">Buy Now</button>
+            </div>
+          </div>
+        </div>`).appendTo("#post");
+         })
+       
+    
+})
 
         // get current user from local storage ? do not thing : redirect sign up
         let getAllUser = JSON.parse(localStorage.getItem("user"));
@@ -241,7 +231,6 @@ getDownloadURL(ref(storage, `images/${tempVal[0]}.jpg`))
     // `url` is the download URL for 'images/stars.jpg'
     $("#testImg").attr("src",fullUrl)
     // This can be downloaded directly:
-    console.log(url)
     await setDoc(doc(db, "Posts", currentId.toString(10)), {
           currentId,
           Title,
@@ -249,8 +238,8 @@ getDownloadURL(ref(storage, `images/${tempVal[0]}.jpg`))
           url
           
 });
-      
-  })
+        
+      })
   .catch((error) => {
     console.log(error)
     // Handle any errors
@@ -259,17 +248,7 @@ getDownloadURL(ref(storage, `images/${tempVal[0]}.jpg`))
  
         
         
-//         $(`
-//         <div class="card-body border-2 my-5 mx-2  " id=${getPost.length-1}>
-//         <h2 class="card-title ">${Title}</h2>
-//         <p>${Desc}</p>
-//         <button class="btn btn-circle " id="${currentId}">
-//           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-//   <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-// </svg>
-
-// </button>
-//       </div>`).appendTo("#post");
+ 
         return;
       });
       $("body").on("click", ".btn.btn-circle", function(){
