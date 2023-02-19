@@ -170,12 +170,19 @@
       };
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
+      let postList = []
+      let flag = 0
       $(document).ready( async() => {
         const citiesRef = collection(db, "Posts");
          onSnapshot(citiesRef, docsSnap =>{
           docsSnap.forEach(doc => {
-            console.log(doc.data())
-          $(`
+            
+            var index = postList.findIndex(x => x.currentId==doc.data().currentId); 
+// here you can check specific property for an object whether it exist in your array or not
+
+          if(index === -1) {
+            postList.push(doc.data())
+            $(`
           <div class="card m-14 w-96 bg-base-100 shadow-xl">
           <figure><img src=${doc.data().url} style="width:300px; height:200px;" alt="Shoes" /></figure>
           <div class="card-body">
@@ -186,8 +193,10 @@
             </div>
           </div>
         </div>`).appendTo("#post");
+          }  
+        
          })
-       
+        console.log(postList)
     
 })
 
@@ -238,6 +247,7 @@ getDownloadURL(ref(storage, `images/${tempVal[0]}.jpg`))
           url
           
 });
+
         
       })
   .catch((error) => {
